@@ -1,0 +1,35 @@
+version: '3'
+services:
+  web:
+    container_name: web
+    restart: always
+    build:
+      context: ./web
+      dockerfile: ./Dockerfile
+    links:
+      - postgres:postgres
+    env_file: .env
+    volumes:
+      - /usr/src/app/static
+    ports:
+      - "5000:5000"
+    #command: uwsgi --http-socket :5000 --file /app/hipflask.py --protocol=http
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      context: ./nginx/
+      dockerfile: ./Dockerfile
+    links:
+      - web:web
+    ports:
+      - "80:80"
+
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+
