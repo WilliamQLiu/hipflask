@@ -5,7 +5,8 @@ services:
     restart: always
     env_file: .env
     links:  # links to containers in another service
-      - postgres:postgres
+      - postgres
+      - redis
     build:  # configuration options applied at build time
       context: ./web
       dockerfile: ./Dockerfile
@@ -22,7 +23,7 @@ services:
       context: ./nginx/
       dockerfile: ./Dockerfile
     links:
-      - web:web
+      - web
     volumes:
       - /www/static
     ports:  # map ports to a host:container format
@@ -36,3 +37,8 @@ services:
     ports:
       - "5432:5432"
 
+  redis:
+    restart: always
+    image: redis:3.0.7
+    ports:
+      - "6379:6379"
