@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename="style.css") }}">
+    <title>Hipflask</title>
+</head>
+<body>
+    <h1 class="buzzy">Buzz</h1>
+    {%  for buzz in buzzing %}
+        <li><a href="{{ buzz.url }}">{{ buzz.url }}</a></li>
+    {% endfor %}
+</body>
+</html>

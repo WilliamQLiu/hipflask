@@ -1,4 +1,2 @@
 FROM postgres:latest
-COPY . /fixtures
-WORKDIR /fixtures
-RUN /fixtures/setup.sh
+MAINTAINER Will Liu "william.q.liu@gmail.com"
