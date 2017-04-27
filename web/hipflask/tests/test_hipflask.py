@@ -70,6 +70,11 @@ class APIBasicTestCase(unittest.TestCase):
         self.assertEqual(len(json_data), 1)
         self.assertIn("www", json_data[0]["url"])
 
+    def test_post_buzz_simple_increments_redis_counter(self):
+        response = self.client.post("/buzz/simple/", data=dict(foo="bar"))
+        json_data = json.loads(response.data)
+        self.assertGreater(json_data["counter"], 1)
+
 
 if __name__ == "__main__":
     print("Running unit tests")

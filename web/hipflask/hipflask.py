@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Flask, request, render_template, jsonify
 from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
-
+from redis import Redis
 
 class BaseConfig(object):
     """ Base configuration """
@@ -27,6 +27,13 @@ db = SQLAlchemy(application)  # for database connection
 db.drop_all()  # Drop all existing database tables
 db.create_all()  # Create database and database tables
 api = Api(application)  # for restful api
+redis = Redis(
+    host='0.0.0.0',
+    port=6379
+)  # a redis instance is thread safe, can use on global level
+
+
+# Redis
 
 
 # Models
@@ -123,7 +130,9 @@ def hello_world():
 @application.route("/buzz/simple/", methods=["GET", "POST"])
 def buzz_norest():
     if request.method == "POST":
-        return "Jk"
+        redis.incr("counter")
+        counter = redis.get("counter")
+        return jsonify({"counter": counter})
     buzzing = Buzz.query.limit(3)
     return render_template('buzz.html', buzzing=buzzing)
 
