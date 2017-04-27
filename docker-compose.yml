@@ -17,7 +17,8 @@ services:
       - "5000"
     depends_on:
       - postgres
-    command: sh /web/scripts/post-run.sh
+      - redis
+    command: sh /web/scripts/post-run-uwsgi.sh
 
   nginx:
     restart: always
@@ -44,3 +45,23 @@ services:
     image: redis:3.0.7
     ports:
       - "6379:6379"
+
+  celery:
+    restart: always
+    build:
+      context: ./celery
+      dockerfile: ./Dockerfile
+    #user: nobody  # do not run celery as root
+    links:
+      - redis
+      - web
+      - postgres
+    depends_on:
+      - redis
+      - web
+      - postgres
+    volumes:
+      - ./web:/web
+    #command: sh /web/scripts/post-run-celery.sh
+    command: tail -f /dev/null  # keep container up
+

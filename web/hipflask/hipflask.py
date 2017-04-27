@@ -26,8 +26,8 @@ class BaseConfig(object):
 application = Flask(__name__)
 application.config.from_object(BaseConfig)
 db = SQLAlchemy(application)  # for database connection
-db.drop_all()  # Drop all existing database tables
-db.create_all()  # Create database and database tables
+#db.drop_all()  # Drop all existing database tables
+#db.create_all()  # Create database and database tables
 api = Api(application)  # for restful api
 
 
@@ -44,6 +44,7 @@ def make_celery(app):
                     broker=app.config["CELERY_BROKER_URL"])
     celery.conf.update(app.config)
     TaskBase = celery.Task
+
     class ContextTask(TaskBase):
         abstract = True
         def __call__(self, *args, **kwargs):
@@ -53,6 +54,7 @@ def make_celery(app):
     return celery
 
 celery = make_celery(application)
+
 @celery.task()
 def add_together(a, b):
     """ Some long task """
