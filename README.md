@@ -14,7 +14,7 @@ The tech stack currently uses:
 
 ## Getting started
 
-###Flask
+### Flask
 
 If you only want to use flask locally, here is how to get started:
 
@@ -37,7 +37,7 @@ Make sure docker and docker-compose is installed. Go to the directory where 'doc
     $docker-compose run --rm web python /web/hipflask/create_db.py  # To add some data into the db
     $docker-compose down  # when you want to shut down the containers
 
-###TO-DOs
+### TO-DOs
 
 In the future I want to:
 
@@ -48,6 +48,6 @@ In the future I want to:
 * Setup continuous deployment on AWS
 * Setup monitoring
 
-###License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
