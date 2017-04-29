@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+{% block body %}
+    <p>Please upload two csv files named 'daily.csv' and 'companies.csv'</p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+        {% for message in messages %}
+          <li style="color:red;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form action="." method="POST" enctype="multipart/form-data">
+        <input type="file" name="daily"><br>
+        <input type="file" name="companies"><br><br>
+
+        <label>Start Date</label>
+        <input type="date" name="start_date"><br>
+
+        <label>End Date</label>
+        <input type="date" name="end_date"><br>
+
+        <label>N (row difference)</label>
+        <input type="number" name="n"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
